@@ -1,0 +1,31 @@
+---
+global:
+  gc: false
+
+jobs:
+- name: test-crd-cr
+  namespace: test-deferred
+  jobType: create
+  jobIterations: 1
+  namespacedIterations: true
+  cleanup: false
+  podWait: false
+  waitWhenFinished: true
+  qps: 10
+  burst: 10
+  maxWaitTimeout: 2m
+  objects:
+  # Create CRD for TestCRD0
+  - objectTemplate: objectTemplates/test-crd0.yml
+    replicas: 1
+
+  # Create CRD for TestCRD1  
+  - objectTemplate: objectTemplates/test-crd1.yml
+    replicas: 1
+
+  # Create CRs
+  - objectTemplate: objectTemplates/test-cr0.yml
+    replicas: 1
+
+  - objectTemplate: objectTemplates/test-cr1.yml
+    replicas: 1
